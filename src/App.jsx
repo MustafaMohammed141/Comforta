@@ -1,16 +1,17 @@
 import React from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Featured from "./components/Featured";
-import Footer from "./components/Footer";
 
-export default function FurnitureLandingPage() {
+import { Routes, Route } from "react-router-dom";
+import Landing from "./UserPages/Landing";
+import Dashboard from "./AdminPages/Dashboard";
+import Dashboard_body from "./AdminPages/Pages/Dashboard_body";
+
+export default function App() {
   return (
     <div className="min-h-screen bg-gray-50 text-gray-800">
-      <Header/>
-      <Hero/>
-      <Featured/>
-      <Footer/>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/admindb/*" element={<Dashboard />} />
+      </Routes>
     </div>
   );
 }
