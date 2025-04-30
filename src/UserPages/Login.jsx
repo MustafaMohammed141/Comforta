@@ -1,59 +1,72 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+export default function Login({ setLogged }) {
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert(`Logging in with\nEmail: ${email}\nPassword: ${password}`);
+
+    const URL = import.meta.env.VITE_DB; // تأكد إنه معرف في .env
+
+    try {
+      const response = await axios.get(`${URL}/users`);
+      const users = response.data;
+
+      const match = users.find(
+        (u) => u.email === user.email && u.password === user.password
+      );
+
+      if (match) {
+        localStorage.setItem("id", match.id);
+        setLogged(true);
+        navigate("/");
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
-        onSubmit={handleLogin}
-        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm"
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Login
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Login</h2>
+
+        {error && <p className="text-red-500 mb-3">{error}</p>}
 
         <input
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
           required
-          className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
           required
-          className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
         >
           Login
         </button>
-
-        <p className="text-sm text-center text-gray-600 mt-4">
-          Don't have an account?{" "}
-          <Link to="/signup" className="text-blue-600 hover:underline">
-            Sign up
-          </Link>
-        </p>
       </form>
     </div>
   );
 }
-
-export default Login;

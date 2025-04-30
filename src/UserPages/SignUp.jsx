@@ -1,68 +1,81 @@
+// src/UserPages/SignUp.jsx
+
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-function SignUp() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+export default function SignUp({ setLogged }) {
+  const [user, setUser] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSignUp = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirm) {
-      setError("Passwords do not match!");
-      return;
+    const URL = import.meta.env.VITE_DB;
+
+    // Basic form validation
+    if (!user.name || !user.email || !user.password) {
+      return setError("Please fill all fields");
     }
 
-    setError("");
-    alert(`Signing up with\nEmail: ${email}\nPassword: ${password}`);
+    try {
+      // check if user already exists
+      const existing = await axios.get(`${URL}/users`);
+      const found = existing.data.find((u) => u.email === user.email);
+
+      if (found) {
+        return setError("Email already registered");
+      }
+
+      // create new user
+      const res = await axios.post(`${URL}/users`, user);
+      localStorage.setItem("id", res.data.id);
+      setLogged(true);
+      navigate("/");
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <form
-        onSubmit={handleSignUp}
-        className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-sm"
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded shadow-md w-full max-w-sm"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
-          Sign Up
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Sign Up</h2>
 
-        {error && (
-          <div className="bg-red-100 text-red-700 p-2 rounded mb-4 text-sm">
-            {error}
-          </div>
-        )}
+        {error && <p className="text-red-500 mb-3">{error}</p>}
 
+        <input
+          type="text"
+          placeholder="Name"
+          value={user.name}
+          onChange={(e) => setUser({ ...user, name: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          required
+        />
         <input
           type="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={user.email}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
           required
-          className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-
         <input
           type="password"
           placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          value={user.password}
+          onChange={(e) => setUser({ ...user, password: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
           required
-          className="w-full p-3 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-
-        <input
-          type="password"
-          placeholder="Confirm Password"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded-lg mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
+          className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
         >
           Sign Up
         </button>
@@ -70,5 +83,3 @@ function SignUp() {
     </div>
   );
 }
-
-export default SignUp;
