@@ -22,6 +22,8 @@ export default function App() {
         <Route path="/contactus" element={<Contact />} />
         <Route path="/aboutus" element={<About />} />
         <Route path="/admindb/*" element={<Dashboard />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </div>
   );
