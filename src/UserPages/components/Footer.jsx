@@ -1,5 +1,6 @@
 import React from "react";
 import { BsFacebook, BsInstagram, BsTwitter, BsPinterest } from 'react-icons/bs';
+import { Link } from "react-router-dom";
 export default function Footer() {
 	return (
 		<>
@@ -19,9 +20,12 @@ export default function Footer() {
 
           {/* Navigation Links */}
           <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-8">
-            <a href="../About.jsx" className="hover:text-gray-400">About Us</a>
-            <a href="../Contact.jsx" className="hover:text-gray-400">Contact</a>
-            <a href="#privacy" className="hover:text-gray-400">Privacy Policy</a>
+            <Link to="/aboutus"> <a href="../About.jsx" className="hover:text-gray-400">About Us</a></Link>
+            <Link to="/contactus"><a href="../contact" className="hover:text-gray-400">Contact</a></Link>
+            <Link to="/login"> <a href="#privacy" className="hover:text-gray-400">Log in</a></Link>
+
+            
+           
           </div>
         </div>
 
