@@ -1,11 +1,18 @@
-// src/UserPages/SignUp.jsx
-
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function SignUp({ setLogged }) {
-  const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    password: "",
+    age: "",
+    address: "",
+    gender:  "",
+    phone: ""
+  });
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -14,12 +21,11 @@ export default function SignUp({ setLogged }) {
     const URL = import.meta.env.VITE_DB;
 
     // Basic form validation
-    if (!user.name || !user.email || !user.password) {
+    if (!user.name || !user.email || !user.password || !user.age || !user.address || !user.gender || !user.phone) {
       return setError("Please fill all fields");
     }
 
     try {
-      // check if user already exists
       const existing = await axios.get(`${URL}/users`);
       const found = existing.data.find((u) => u.email === user.email);
 
@@ -27,7 +33,6 @@ export default function SignUp({ setLogged }) {
         return setError("Email already registered");
       }
 
-      // create new user
       const res = await axios.post(`${URL}/users`, user);
       localStorage.setItem("id", res.data.id);
       setLogged(true);
@@ -72,6 +77,41 @@ export default function SignUp({ setLogged }) {
           className="w-full p-2 border border-gray-300 rounded mb-4"
           required
         />
+        <input
+          type="number"
+          placeholder="Age"
+          value={user.age}
+          onChange={(e) => setUser({ ...user, age: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Address"
+          value={user.address}
+          onChange={(e) => setUser({ ...user, address: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          required
+        />
+        <input
+          type="tel"
+          placeholder="phone"
+          value={user.phone}
+          onChange={(e) => setUser({ ...user, phone: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          required
+        />
+        <select
+          value={user.gender}
+          onChange={(e) => setUser({ ...user, gender: e.target.value })}
+          className="w-full p-2 border border-gray-300 rounded mb-4"
+          required
+        >
+          <option value="">Select Gender</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        
+        </select>
 
         <button
           type="submit"
