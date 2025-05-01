@@ -20,7 +20,6 @@ export default function SignUp({ setLogged }) {
     e.preventDefault();
     const URL = import.meta.env.VITE_DB;
 
-    // Basic form validation
     if (!user.name || !user.email || !user.password || !user.age || !user.address || !user.gender || !user.phone) {
       return setError("Please fill all fields");
     }

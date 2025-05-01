@@ -10,7 +10,7 @@ export default function Login({ setLogged }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const URL = import.meta.env.VITE_DB; // تأكد إنه معرف في .env
+    const URL = import.meta.env.VITE_DB; 
 
     try {
       const response = await axios.get(`${URL}/users`);
