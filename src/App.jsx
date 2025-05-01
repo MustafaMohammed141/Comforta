@@ -23,6 +23,7 @@ export default function App() {
         <Route path="/aboutus" element={<About />} />
         <Route path="/admindb/*" element={<Dashboard />} />
       </Routes>
+      
     </div>
   );
 }
