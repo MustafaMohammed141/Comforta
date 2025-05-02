@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from './components/Header';
 import Footer from './components/Footer';
-
 const CartPage = () => {
   const [cart, setCart] = useState({ items: [] });
   const [loading, setLoading] = useState(true);
@@ -210,6 +209,7 @@ const CartPage = () => {
       <Footer />
     </div>
   );
+
 };
 
 export default CartPage;

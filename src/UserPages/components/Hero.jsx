@@ -113,4 +113,5 @@ export default function Hero({ title = "Best Sellers", subtitle = "Explore our m
       </div>
     </section>
   );
+
 }

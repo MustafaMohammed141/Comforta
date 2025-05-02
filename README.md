@@ -69,3 +69,4 @@ This will start the Vite development server, typically on port 5173.
 - Tailwind CSS
 - Axios for API requests
 - JSON Server for mock API
+# This is Team 1 final project

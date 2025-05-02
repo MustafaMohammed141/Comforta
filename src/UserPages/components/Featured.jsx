@@ -119,4 +119,5 @@ export default function Featured({ title = "Just Arrived" }) {
       </div>
     </section>
   );
+
 }

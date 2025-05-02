@@ -6,8 +6,6 @@ import Hero from './components/Hero';
 
 const About = () => {
   const navigate = useNavigate();
-
-  // Company values for the values section
   const companyValues = [
     {
       id: 1,
@@ -160,6 +158,7 @@ const About = () => {
       <Footer />
     </div>
   );
+
 };
 
 export default About;
