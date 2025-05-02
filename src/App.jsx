@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./UserPages/Landing";
-import Dashboard from "./AdminPages/Dashboard";
+import Dashboard from "./AdminPages/Pages/Dashboard";
 import Products from "./UserPages/Products";
 import CartPage from "./UserPages/CartPage";
 import Login from "./UserPages/Login";
 import SignUp from "./UserPages/SignUp";
 import Contact from "./UserPages/Contact";
 import About from "./UserPages/About";
-
+import axios from "axios";
+import Loading from "./UserPages/components/Loading";
 export default function App() {
   const [isLogged, setIsLogged] = useState(false);
+  
   const [users, setUsers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getUsers = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
@@ -23,11 +25,12 @@ export default function App() {
         method: "get",
       });
       setUsers(req.data);
+
+      setIsLoading(false);
     } catch (e) {
-      console.error("Error fetching users:", e);
+      console.log(e);
     }
   };
-
   useEffect(() => {
     getUsers();
   }, []);
@@ -43,8 +46,17 @@ export default function App() {
 
         <Route path="/contactus" element={<Contact />} />
         <Route path="/aboutus" element={<About />} />
-        <Route path="/admindb/*" element={<Dashboard />} />
-        
+
+        <Route
+          path="/admindb/*"
+          element={
+            <Dashboard
+              users={users}
+              isLoading={isLoading}
+              refreshUsers={getUsers}
+            />
+          }
+        />
       </Routes>
     </div>
   );
