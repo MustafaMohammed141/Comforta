@@ -1,10 +1,11 @@
 import React from "react";
+
 import { BsFacebook, BsInstagram, BsTwitter, BsPinterest } from 'react-icons/bs';
 import { Link } from "react-router-dom";
 export default function Footer() {
 	return (
 		<>
-			<footer className="text-center p-6 bg-white border-t mt-10">
+
 			<footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center">
@@ -52,10 +53,6 @@ export default function Footer() {
       </div>
     </footer>
 			</footer>
-
-			
-
-			
 		</>
 	);
 }

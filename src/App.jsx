@@ -1,3 +1,4 @@
+import React from "react";
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./UserPages/Landing";
@@ -41,6 +42,7 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/shopping" element={<Products />} />
         <Route path="/cart" element={<CartPage />} />
+
         <Route path="/login" element={<Login setLogged={setIsLogged} />} />
         <Route path="/signup" element={<SignUp setLogged={setIsLogged} />} />
 
