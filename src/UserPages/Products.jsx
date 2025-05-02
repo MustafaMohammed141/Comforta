@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
@@ -6,147 +8,79 @@ import Footer from "./components/Footer";
 const CartContext = React.createContext();
 const useCart = () => React.useContext(CartContext);
 
-const products = [
-  {
-    id: 1,
-    name: "Modern Leather Sofa",
-    description:
-      "Elegant and comfortable leather sofa perfect for any living room",
-    price: "$1,299",
-    category: "Living Room",
-    image: "/images/leather-sofa.jpg", // Update with your local image path
-  },
-  {
-    id: 2,
-    name: "Queen Platform Bed",
-    description: "Minimalist platform bed with built-in storage",
-    price: "$899",
-    category: "Bedroom",
-    image: "/images/platform-bed.jpg", // Update with your local image path
-  },
-  {
-    id: 3,
-    name: "Dining Table Set",
-    description: "Contemporary 6-seater dining set with oak finish",
-    price: "$1,499",
-    category: "Dining Room",
-    image: "/images/dining-set.jpg", // Update with your local image path
-  },
-  {
-    id: 4,
-    name: "Accent Armchair",
-    description: "Stylish velvet armchair with gold-finished legs",
-    price: "$599",
-    category: "Living Room",
-    image: "/images/armchair.jpg", // Update with your local image path
-  },
-  {
-    id: 5,
-    name: "Storage Ottoman",
-    description: "Multifunctional ottoman with hidden storage space",
-    price: "$299",
-    category: "Living Room",
-    image: "/images/ottoman.jpg", // Update with your local image path
-  },
-  {
-    id: 6,
-    name: "Dresser with Mirror",
-    description: "Classic wooden dresser with attached mirror",
-    price: "$799",
-    category: "Bedroom",
-    image: "/images/dresser.jpg", // Update with your local image path
-  },
-  {
-    id: 7,
-    name: "L-Shaped Sectional Sofa",
-    description: "Spacious sectional sofa perfect for large family rooms",
-    price: "$1,899",
-    category: "Living Room",
-    image: "/images/sectional-sofa.jpg", // Update with your local image path
-  },
-  {
-    id: 8,
-    name: "Coffee Table",
-    description: "Marble-top coffee table with black metal frame",
-    price: "$449",
-    category: "Living Room",
-    image: "/images/coffee-table.jpg", // Update with your local image path
-  },
-  {
-    id: 9,
-    name: "Bunk Bed",
-    description: "Space-saving twin bunk bed with ladder and guardrails",
-    price: "$799",
-    category: "Bedroom",
-    image: "/images/bunk-bed.jpg", // Update with your local image path
-  },
-  {
-    id: 10,
-    name: "Bar Stools (Set of 2)",
-    description: "Industrial style bar stools with adjustable height",
-    price: "$349",
-    category: "Dining Room",
-    image: "/images/bar-stools.jpg", // Update with your local image path
-  },
-  {
-    id: 11,
-    name: "Bookshelf",
-    description: "5-tier bookshelf with open design and metal frame",
-    price: "$299",
-    category: "Home Office",
-    image: "/images/bookshelf.jpg", // Update with your local image path
-  },
-  {
-    id: 12,
-    name: "TV Stand",
-    description: "Entertainment center with cable management and storage",
-    price: "$399",
-    category: "Living Room",
-    image: "/images/tv-stand.jpg", // Update with your local image path
-  },
-  {
-    id: 13,
-    name: "Office Desk",
-    description: "Modern workstation with drawers and keyboard tray",
-    price: "$549",
-    category: "Home Office",
-    image: "/images/office-desk.jpg", // Update with your local image path
-  },
-  {
-    id: 14,
-    name: "King Size Bed Frame",
-    description: "Luxurious upholstered bed frame with tufted headboard",
-    price: "$999",
-    category: "Bedroom",
-    image: "/images/king-bed.jpg", // Update with your local image path
-  },
-  {
-    id: 15,
-    name: "Recliner Chair",
-    description: "Comfortable leather recliner with multiple positions",
-    price: "$699",
-    category: "Living Room",
-    image: "/images/recliner.jpg", // Update with your local image path
-  },
-];
-
 const Products = () => {
+  const navigate = useNavigate();
+
+  // State for products
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   // For a real app, you would implement this properly with state management
   const { dispatch } = { dispatch: () => {} };
 
-  const addToCart = (product) => {
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image,
-        quantity: 1,
-      },
-    });
-    // You could also add a toast/notification here to show the item was added
-    alert(`${product.name} added to cart!`);
+  // Fetch products from JSON Server
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get('http://localhost:3000/products');
+        setProducts(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Failed to fetch products. Please try again later.');
+        setLoading(false);
+        console.error('Error fetching products:', err);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  const addToCart = async (product) => {
+    try {
+      // Get the current cart for user ID 1
+      const response = await axios.get('http://localhost:3000/carts/1');
+      const cart = response.data;
+
+      // Check if the product is already in the cart
+      const existingItemIndex = cart.items.findIndex(item => item.productId === product.id);
+
+      if (existingItemIndex !== -1) {
+        // If product already exists, increase quantity
+        cart.items[existingItemIndex].quantity += 1;
+      } else {
+        // If product doesn't exist, add it to the cart
+        cart.items.push({
+          productId: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1
+        });
+      }
+
+      // Update the cart on the server
+      await axios.put('http://localhost:3000/carts/1', cart);
+
+      // Also dispatch to local state if needed
+      dispatch({
+        type: "ADD_TO_CART",
+        payload: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.image,
+          quantity: 1,
+        },
+      });
+
+      // Show success message
+      alert(`${product.name} added to cart!`);
+    } catch (err) {
+      console.error('Error adding to cart:', err);
+      alert('Failed to add item to cart. Please try again.');
+    }
   };
 
   // Get unique categories for the filter buttons
@@ -154,7 +88,7 @@ const Products = () => {
     "All",
     ...new Set(products.map((product) => product.category)),
   ];
-  const [activeCategory, setActiveCategory] = React.useState("All");
+  const [activeCategory, setActiveCategory] = useState("All");
 
   // Filter products based on selected category
   const filteredProducts =
@@ -163,86 +97,183 @@ const Products = () => {
       : products.filter((product) => product.category === activeCategory);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       <Header />
-      <div className="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-indigo-100 to-purple-100 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-5xl font-bold text-gray-900 mb-3">Our Collection</h2>
+            <div className="w-24 h-1 bg-indigo-600 mx-auto mb-6"></div>
+            <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">Discover furniture that combines style, comfort, and quality for every room in your home</p>
+          </div>
+          <div className="bg-white rounded-xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+            <img 
+              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
+              alt="Furniture Collection" 
+              className="w-full h-96 object-cover hover:scale-105 transition-transform duration-700"
+            />
+          </div>
+        </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto py-20 px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-            Our Collection
+          <h2 className="text-4xl font-bold text-gray-900 mb-3">
+            Browse Our Products
           </h2>
-          <p className="mt-4 text-xl text-gray-600">
-            Discover furniture that combines style, comfort, and quality
+          <div className="w-32 h-1 bg-indigo-600 mx-auto mb-8"></div>
+          <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Find the perfect furniture pieces to transform your space into a stylish and comfortable home
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="mt-8 flex flex-wrap justify-center gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-4 py-2 rounded transition-colors ${
-                activeCategory === category
-                  ? "bg-amber-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
+        {/* Loading and Error States */}
+        {loading && (
+          <div className="text-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-600 mb-4"></div>
+            <p className="text-xl text-gray-600">Loading products...</p>
+          </div>
+        )}
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {filteredProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="h-64 w-full overflow-hidden">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                />
+        {error && (
+          <div className="text-center py-20">
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+              <strong className="font-bold">Error! </strong>
+              <span className="block sm:inline">{error}</span>
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <>
+            {/* Category Filter */}
+            <div className="mt-16 mb-12">
+              <div className="text-center mb-8">
+                <h3 className="text-2xl font-bold text-gray-800">Filter by Category</h3>
+                <div className="w-20 h-1 bg-indigo-600 mx-auto mt-3"></div>
               </div>
-              <div className="p-6">
-                <div className="text-sm text-amber-600 font-semibold">
-                  {product.category}
-                </div>
-                <h3 className="mt-2 text-xl font-bold text-gray-900">
-                  {product.name}
-                </h3>
-                <p className="mt-2 text-gray-600">{product.description}</p>
-                <div className="mt-4 flex items-center justify-between">
-                  <span className="text-2xl font-bold text-gray-900">
-                    {product.price}
-                  </span>
+              <div className="flex flex-wrap justify-center gap-4">
+                {categories.map((category) => (
                   <button
-                    onClick={() => addToCart(product)}
-                    className="bg-amber-600 text-white py-2 px-4 rounded-md hover:bg-amber-700 transition-colors duration-200 flex items-center"
+                    key={category}
+                    onClick={() => setActiveCategory(category)}
+                    className={`px-8 py-3 rounded-full transition-all duration-300 font-medium text-base ${
+                      activeCategory === category
+                        ? "bg-indigo-600 text-white shadow-lg transform scale-105 hover:bg-indigo-700"
+                        : "bg-white text-gray-700 border-2 border-gray-200 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-600 hover:shadow-md"
+                    }`}
                   >
-                    Add to Cart
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="ml-2 h-5 w-5"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                      />
-                    </svg>
+                    {category}
                   </button>
-                </div>
+                ))}
               </div>
             </div>
-          ))}
-        </div>
+
+            {/* Products Grid */}
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-16 bg-gray-50 rounded-xl">
+                <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-2xl text-gray-600 font-medium">No products found in this category.</p>
+                <p className="text-gray-500 mt-2">Please try another category or check back later.</p>
+              </div>
+            ) : (
+              <div className="mt-16 grid gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-3">
+                {filteredProducts.map((product) => (
+                  <div
+                    key={product.id}
+                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 border border-gray-100 group flex flex-col h-[550px]"
+                  >
+                    <div className="relative h-72 w-full overflow-hidden">
+                      <img
+                        src={product.image || `https://source.unsplash.com/500x400/?furniture,${product.name}`}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out"
+                      />
+                      <div className="absolute top-0 right-0 bg-indigo-600 text-white px-4 py-1.5 m-4 rounded-full text-sm font-medium shadow-md">
+                        {product.category}
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="absolute bottom-0 left-0 right-0 p-6">
+                          <p className="text-white font-medium line-clamp-2">{product.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-6 flex flex-col flex-grow">
+                      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors duration-300">
+                        {product.name}
+                      </h3>
+                      <div className="h-16 overflow-hidden mb-4">
+                        <p className="text-gray-600 line-clamp-2">{product.description}</p>
+                      </div>
+                      <div className="mt-auto pt-4 border-t border-gray-100">
+                        <div className="flex items-center justify-between">
+                          <span className="text-2xl font-bold text-indigo-600">
+                            {product.price}
+                          </span>
+                          <button
+                            onClick={() => addToCart(product)}
+                            className="bg-indigo-600 text-white py-2.5 px-6 rounded-full hover:bg-indigo-700 transition-all duration-300 flex items-center shadow-md hover:shadow-lg transform hover:scale-105"
+                          >
+                            Add to Cart
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="ml-2 h-5 w-5"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
+        )}
       </div>
+
+      {/* Call to Action */}
+      <section className="bg-gradient-to-r from-indigo-600 to-purple-700 text-white py-20 px-4 sm:px-6 lg:px-8 mt-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="none" stroke="white" strokeWidth="0.5"></path>
+            <path d="M0,0 L100,100 M100,0 L0,100" fill="none" stroke="white" strokeWidth="0.5"></path>
+          </svg>
+        </div>
+        <div className="max-w-4xl mx-auto text-center relative z-10">
+          <h2 className="text-4xl font-bold mb-6">Can't find what you're looking for?</h2>
+          <div className="w-24 h-1 bg-white mx-auto mb-8 opacity-70"></div>
+          <p className="text-xl mb-10 leading-relaxed">Visit our showroom or contact our customer service team for personalized assistance. We're here to help you find the perfect furniture for your home.</p>
+          <div className="flex flex-wrap justify-center gap-6">
+            <button 
+              onClick={() => navigate('/contactus')}
+              className="bg-white text-indigo-700 px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Contact Us
+            </button>
+            <button 
+              onClick={() => navigate('/aboutus')}
+              className="bg-transparent text-white border-2 border-white px-10 py-4 rounded-full font-bold hover:bg-white/10 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Find Showroom
+            </button>
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

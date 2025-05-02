@@ -11,4 +11,15 @@ export default function Header() {
           </a>
           <a href="#about" className="hover:text-indigo-600">
             About
-          </a>.
+          </a>
+          <a href="#contact" className="hover:text-indigo-600">
+            Contact
+          </a>
+          <a href="/cart" className="hover:text-indigo-600">
+            Cart
+          </a>
+        </nav>
+      </header>
+    </>
+  );
+}
