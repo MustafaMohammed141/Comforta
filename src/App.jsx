@@ -11,6 +11,8 @@ import About from "./UserPages/About";
 import axios from "axios";
 import Loading from "./UserPages/components/Loading";
 export default function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -23,6 +25,7 @@ export default function App() {
         method: "get",
       });
       setUsers(req.data);
+
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -38,10 +41,12 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/shopping" element={<Products />} />
         <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login setLogged={setIsLogged} />} />
+        <Route path="/signup" element={<SignUp setLogged={setIsLogged} />} />
+
         <Route path="/contactus" element={<Contact />} />
         <Route path="/aboutus" element={<About />} />
+
         <Route
           path="/admindb/*"
           element={
