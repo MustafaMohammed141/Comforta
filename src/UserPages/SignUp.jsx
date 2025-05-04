@@ -9,7 +9,7 @@ export default function SignUp({ setLogged }) {
     password: "",
     age: "",
     address: "",
-    gender:  "",
+    gender: "",
     phone: ""
   });
 
@@ -20,7 +20,15 @@ export default function SignUp({ setLogged }) {
     e.preventDefault();
     const URL = import.meta.env.VITE_DB;
 
-    if (!user.name || !user.email || !user.password || !user.age || !user.address || !user.gender || !user.phone) {
+    if (
+      !user.name ||
+      !user.email ||
+      !user.password ||
+      !user.age ||
+      !user.address ||
+      !user.gender ||
+      !user.phone
+    ) {
       return setError("Please fill all fields");
     }
 
@@ -109,7 +117,6 @@ export default function SignUp({ setLogged }) {
           <option value="">Select Gender</option>
           <option value="Male">Male</option>
           <option value="Female">Female</option>
-        
         </select>
 
         <button
