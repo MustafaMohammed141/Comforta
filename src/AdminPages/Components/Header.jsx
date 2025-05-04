@@ -15,6 +15,9 @@ export default function Header() {
           <a href="#contact" className="hover:text-indigo-600">
             Contact
           </a>
+          <a href="/cart" className="hover:text-indigo-600">
+            Cart
+          </a>
         </nav>
       </header>
     </>
