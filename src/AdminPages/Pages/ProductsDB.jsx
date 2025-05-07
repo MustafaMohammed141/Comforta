@@ -1,28 +1,29 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+const ProductsDB = ({ products }) => {
   const navigate = useNavigate();
 
-const handleAdd = async () => {
-  const newProduct = {
-    title: "New Product",
-    brand: "",
-    category: "",
-    short_description: "",
-    price: "0.00",
-    description: "",
-    img: "https://via.placeholder.com/400", // Placeholder image
-  };
+  const handleAdd = async () => {
+    const newProduct = {
+      title: "New Product",
+      brand: "",
+      category: "",
+      short_description: "",
+      price: "0.00",
+      description: "",
+      img: "https://via.placeholder.com/400",
+    };
 
-  try {
-    const res = await axios.post(`${import.meta.env.VITE_DB}/products`, newProduct);
-    navigate(`/admindb/ManageProducts/${res.data.id}`);
-  } catch (e) {
-    console.error("Failed to add product:", e);
-  }
-};
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_DB}/products`, newProduct);
+      navigate(`/admindb/ManageProducts/${res.data.id}`);
+    } catch (e) {
+      console.error("Failed to add product:", e);
+    }
+  };
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -83,7 +84,7 @@ const handleAdd = async () => {
         </table>
       </div>
     </div>
-  );}
-
+  );
+};
 
 export default ProductsDB;
