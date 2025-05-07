@@ -45,17 +45,20 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, produc
             <ManageProducts
               products={products}
               setProducts={setProducts}
-              isLoading={isLoading}/>
+              isLoading={isLoading}
+              />
+          }
+          />
                 
           <Route
-          path={"/ManageAdmins/:id"}
+          path="/ManageAdmins/:id"
           element={
             <ManageAdmins
               users={users}
               admin={admin}
               isLoading={isLoading}
               refreshAdmin={refreshAdmin}
-            
+                    />
           }
         />
       </Routes>
