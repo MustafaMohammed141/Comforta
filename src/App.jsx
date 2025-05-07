@@ -9,14 +9,13 @@ import SignUp from "./UserPages/SignUp";
 import Contact from "./UserPages/Contact";
 import About from "./UserPages/About";
 import axios from "axios";
-import Loading from "./UserPages/components/Loading";
-export default function App() {
-  const [isLogged, setIsLogged] = useState(false);
-  
-  const [users, setUsers] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
+export default function App() {
+  const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLogged, setIsLogged] = useState(true);
+  const [products, setProducts] = useState([]);
   const getUsers = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
@@ -33,6 +32,19 @@ export default function App() {
     }
   };
 
+  const getAdmin = async () => {
+    const VITE_DB = import.meta.env.VITE_DB;
+    try {
+      const req = await axios({
+        url: `${VITE_DB}/Admins`,
+        method: "get",
+      });
+      setAdmin(req.data);
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const getProducts = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
@@ -48,20 +60,18 @@ export default function App() {
       console.log(e);
     }
   };
-
-
   useEffect(() => {
     getUsers();
     getProducts();
+    getAdmin();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+    <div className="min-h-screen bg-gray-50 text-gray-800 over">
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/shopping" element={<Products />} />
         <Route path="/cart" element={<CartPage />} />
-
         <Route path="/login" element={<Login setLogged={setIsLogged} />} />
         <Route path="/signup" element={<SignUp setLogged={setIsLogged} />} />
 
@@ -72,16 +82,18 @@ export default function App() {
           path="/admindb/*"
           element={
             <Dashboard
+
+              products={products}
+              setProducts={setProducts}
               users={users}
-              products = {products}
-              setProducts = {setProducts}
+              admin={admin}
               isLoading={isLoading}
               refreshUsers={getUsers}
+              refreshAdmin={getAdmin}
             />
           }
         />
       </Routes>
-      
     </div>
   );
 }

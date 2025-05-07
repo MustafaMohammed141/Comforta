@@ -3,22 +3,6 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
-
-const ProductsDB = ({ products }) => {
-  // const handleAdd = () => {
-  //   const newProduct = {
-  //     id: products.length + 1,
-  //     title: "New Product",
-  //     brand: "New Brand",
-  //     category: "New Category",
-  //     short_description: "Short description",
-  //     price: "0.00",
-  //     description: "New product description",
-  //   };
-    
-  // };
-
   const navigate = useNavigate();
 
 const handleAdd = async () => {
@@ -100,6 +84,7 @@ const handleAdd = async () => {
       </div>
     </div>
   );
+
 };
 
 export default ProductsDB;

@@ -2,41 +2,34 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Loading from "../../UserPages/components/Loading";
-import { Input, Select, Option, Button } from "@material-tailwind/react";
+import UserEditDone from "../Components/UserEditDone";
+import { Input, Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import UserEditDone from "./../Components/UserEditDone";
-import UserDeleteConfirm from "./../Components/UserDeleteConfirm";
 
 const patterns = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/,
   phone: /^\d{11}$/,
-  address: /^[\w\s,-]{3,}$/,
-  age: /^(1[01][0-9]|[1-9][0-9]?)$/,
 };
 
-const ManageUsers = ({ refreshUsers }) => {
+const ManageAdmins = ({ refreshAdmin }) => {
   const { id } = useParams();
-  const [user, setUser] = useState([]);
+  const [Admin, setAdmin] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [update, setUpdate] = useState({});
-  const [gen, setGen] = useState("");
   const [errors, setErrors] = useState({});
   const [sizeEd, setSizeEd] = useState(null);
-  const [sizeDel, setSizeDel] = useState(null);
   const handleOpenEdit = (value) => setSizeEd(value);
-  const handleOpenDelete = (value) => setSizeDel(value);
-  const getUser = async () => {
+  const getAdmin = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
     try {
       const req = await axios({
-        url: `${VITE_DB}/users/${id}`,
+        url: `${VITE_DB}/Admins/${id}`,
         method: "get",
       });
-      setUser(req.data);
+      setAdmin(req.data);
       setUpdate(req.data);
-      setGen(req.data.gender);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -60,40 +53,24 @@ const ManageUsers = ({ refreshUsers }) => {
     validateField(name, value);
   };
 
-
-  const updateUser = async () => {
+  const updateAdmin = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
-
     try {
       await axios({
-        url: `${VITE_DB}/users/${id}`,
+        url: `${VITE_DB}/Admins/${id}`,
         method: "put",
         data: update,
       });
-
       handleOpenEdit("xs");
-      refreshUsers();
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const deleteUser = async () => {
-    const VITE_DB = import.meta.env.VITE_DB;
 
-    try {
-      await axios({
-        url: `${VITE_DB}/users/${id}`,
-        method: "delete",
-      });
-      refreshUsers();
+      refreshAdmin();
     } catch (e) {
       console.log(e);
     }
   };
 
   useEffect(() => {
-
-    getUser();
+    getAdmin();
   }, []);
 
   if (isLoading) {
@@ -103,11 +80,7 @@ const ManageUsers = ({ refreshUsers }) => {
   return (
     <div className="flex justify-center items-center">
       <UserEditDone size={sizeEd} handleOpen={handleOpenEdit} />
-      <UserDeleteConfirm
-        size={sizeDel}
-        handleOpen={handleOpenDelete}
-        deleteUser={deleteUser}
-      />
+
       <div className="border-2 border-indigo-500 bg-blue-gray-50 border-solid rounded-md w-full p-12 m-9 flex items-center flex-col gap-28">
         <div className="flex justify-center flex-wrap flex-row gap-16">
           <div className="w-72">
@@ -117,7 +90,7 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Name"
-              defaultValue={user.name}
+              defaultValue={Admin.name}
             />
             {errors.name && <p className="text-red-500">{errors.name}</p>}
           </div>
@@ -128,7 +101,7 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Email"
-              defaultValue={user.email}
+              defaultValue={Admin.email}
             />
             {errors.email && <p className="text-red-500">{errors.email}</p>}
           </div>
@@ -139,7 +112,7 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Password"
-              defaultValue={user.password}
+              defaultValue={Admin.password}
             />
             {errors.password && (
               <p className="text-red-500">{errors.password}</p>
@@ -152,63 +125,22 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Phone"
-              defaultValue={user.phone}
+              defaultValue={Admin.phone}
             />
             {errors.phone && <p className="text-red-500">{errors.phone}</p>}
           </div>
-          <div className="w-72">
-            <Input
-              onChange={handleInputChange}
-              name="address"
-              type="text"
-              color="black"
-              label="Address"
-              defaultValue={user.address}
-            />
-            {errors.address && <p className="text-red-500">{errors.address}</p>}
-          </div>
-          <div className="w-72">
-            <Select
-              name="gender"
-              label="Gender"
-              value={gen}
-              onChange={(value) => {
-                setUpdate({ ...update, gender: value });
-                setGen(value);
-              }}>
-              <Option value="male">Male</Option>
-              <Option value="female">Female</Option>
-            </Select>
-          </div>
-          <div className="w-72">
-            <Input
-              onChange={handleInputChange}
-              name="age"
-              type="text"
-              color="black"
-              label="Age"
-              defaultValue={user.age}
-            />
-            {errors.age && <p className="text-red-500">{errors.age}</p>}
-          </div>
         </div>
+
         <div className="flex gap-4">
           <Button
-            onClick={updateUser}
+            onClick={updateAdmin}
             className="w-fit"
             variant="gradient"
             color="green"
             disabled={Object.keys(errors).length > 0}>
             Update Data
           </Button>
-          <Button
-            onClick={() => handleOpenDelete("xs")}
-            className="w-fit"
-            variant="gradient"
-            color="red"
-            disabled={Object.keys(errors).length > 0}>
-            Delete Data
-          </Button>
+
           <Link to={"/admindb/List/Users"}>
             <Button className="w-fit" variant="gradient" color="indigo">
               Cancel
@@ -216,9 +148,8 @@ const ManageUsers = ({ refreshUsers }) => {
           </Link>
         </div>
       </div>
-
     </div>
   );
 };
 
-export default ManageUsers;
+export default ManageAdmins;
