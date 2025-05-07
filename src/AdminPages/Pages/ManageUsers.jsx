@@ -139,7 +139,6 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Password"
-              defaultValue={user.password}
             />
             {errors.password && (
               <p className="text-red-500">{errors.password}</p>
