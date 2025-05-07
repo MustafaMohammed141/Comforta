@@ -48,7 +48,7 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, produc
               isLoading={isLoading}/>
                 
           <Route
-          path="/ManageAdmins/:id"
+          path={"/ManageAdmins/:id"}
           element={
             <ManageAdmins
               users={users}
