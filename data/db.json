@@ -1,0 +1,153 @@
+{
+  "carts": [
+    {
+      "id": "1",
+      "userId": 1,
+      "items": [
+        {
+          "productId": "1",
+          "name": "Modern Leather Sofa",
+          "price": "$1,299",
+          "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          "quantity": 3
+        },
+        {
+          "productId": "2",
+          "name": "Queen Platform Bed",
+          "price": "$899",
+          "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          "quantity": 1
+        },
+        {
+          "productId": "3",
+          "name": "Dining Table Set",
+          "price": "$1,499",
+          "image": "https://images.unsplash.com/photo-1617098650990-217c7cf9de26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "name": "Modern Leather Sofa",
+      "description": "Elegant and comfortable leather sofa perfect for any living room",
+      "price": "$1,299",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "2",
+      "name": "Queen Platform Bed",
+      "description": "Minimalist platform bed with built-in storage",
+      "price": "$899",
+      "category": "Bedroom",
+      "image": "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "3",
+      "name": "Dining Table Set",
+      "description": "Contemporary 6-seater dining set with oak finish",
+      "price": "$1,499",
+      "category": "Dining Room",
+      "image": "https://images.unsplash.com/photo-1617098650990-217c7cf9de26?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "4",
+      "name": "Accent Armchair",
+      "description": "Stylish velvet armchair with gold-finished legs",
+      "price": "$599",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "5",
+      "name": "Storage Ottoman",
+      "description": "Multifunctional ottoman with hidden storage space",
+      "price": "$299",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1540574163026-643ea20ade25?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "6",
+      "name": "Dresser with Mirror",
+      "description": "Classic wooden dresser with attached mirror",
+      "price": "$799",
+      "category": "Bedroom",
+      "image": "https://images.unsplash.com/photo-1551298370-9d3d53740c72?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "7",
+      "name": "L-Shaped Sectional Sofa",
+      "description": "Spacious sectional sofa perfect for large family rooms",
+      "price": "$1,899",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "8",
+      "name": "Coffee Table",
+      "description": "Marble-top coffee table with black metal frame",
+      "price": "$449",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1532372576444-dda954194ad0?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "9",
+      "name": "Bunk Bed",
+      "description": "Space-saving twin bunk bed with ladder and guardrails",
+      "price": "$799",
+      "category": "Bedroom",
+      "image": "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "10",
+      "name": "Bar Stools (Set of 2)",
+      "description": "Industrial style bar stools with adjustable height",
+      "price": "$349",
+      "category": "Dining Room",
+      "image": "https://images.unsplash.com/photo-1581539250439-c96689b516dd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "11",
+      "name": "Bookshelf",
+      "description": "5-tier bookshelf with open design and metal frame",
+      "price": "$299",
+      "category": "Home Office",
+      "image": "https://images.unsplash.com/photo-1594026112284-02bb6f3352fe?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "12",
+      "name": "TV Stand",
+      "description": "Entertainment center with cable management and storage",
+      "price": "$399",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1567016432779-094069958ea5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "13",
+      "name": "Office Desk",
+      "description": "Modern workstation with drawers and keyboard tray",
+      "price": "$549",
+      "category": "Home Office",
+      "image": "https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "14",
+      "name": "King Size Bed Frame",
+      "description": "Luxurious upholstered bed frame with tufted headboard",
+      "price": "$999",
+      "category": "Bedroom",
+      "image": "https://images.unsplash.com/photo-1505693314120-0d443867891c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+      "id": "15",
+      "name": "Recliner Chair",
+      "description": "Comfortable leather recliner with multiple positions",
+      "price": "$699",
+      "category": "Living Room",
+      "image": "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+    }
+  ]
+}
