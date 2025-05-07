@@ -83,7 +83,7 @@ const handleAdd = async () => {
         </table>
       </div>
     </div>
-  )};
+  );
 
 
 export default ProductsDB;
