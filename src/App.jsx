@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./UserPages/Landing";
@@ -83,21 +82,6 @@ export default function App() {
         />
       </Routes>
       
-=======
-import React from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Featured from "./components/Featured";
-import Footer from "./components/Footer";
-
-export default function FurnitureLandingPage() {
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <Header/>
-      <Hero/>
-      <Featured/>
-      <Footer/>
->>>>>>> 726897ae2a9104ba85bb68001f4659cb094afee9
     </div>
   );
 }

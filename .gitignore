@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 .env
-=======
->>>>>>> 726897ae2a9104ba85bb68001f4659cb094afee9
 # Logs
 logs
 *.log
@@ -15,10 +12,7 @@ node_modules
 dist
 dist-ssr
 *.local
-<<<<<<< HEAD
 .env
-=======
->>>>>>> 726897ae2a9104ba85bb68001f4659cb094afee9
 
 # Editor directories and files
 .vscode/*

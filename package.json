@@ -1,9 +1,5 @@
 {
-<<<<<<< HEAD
 "name": "e-comforta",
-=======
-  "name": "e-comforta",
->>>>>>> 726897ae2a9104ba85bb68001f4659cb094afee9
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -11,7 +7,6 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-<<<<<<< HEAD
     "preview": "vite preview",
     "server": "json-server --watch data/db.json --port 3001"
   },
@@ -25,13 +20,6 @@
     "react-loading-indicators": "^1.0.1",
     "react-router-dom": "^7.5.3",
     "react-icons": "^5.5.0"
-=======
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
->>>>>>> 726897ae2a9104ba85bb68001f4659cb094afee9
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
