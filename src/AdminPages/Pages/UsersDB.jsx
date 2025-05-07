@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import UsersTable from "./UsersTable";
 import AdminsTable from "./AdminsTable";
 import Loading from "../../UserPages/components/Loading";
-import { Button } from "@material-tailwind/react";
 const UsersDB = ({ users, isLoading, admin, refreshAdmin }) => {
   const [active, setActive] = useState(1);
   const getItemProps = (index) => ({

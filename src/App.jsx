@@ -71,7 +71,6 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/shopping" element={<Products />} />
         <Route path="/cart" element={<CartPage />} />
-
         <Route path="/login" element={<Login setLogged={setIsLogged} />} />
         <Route path="/signup" element={<SignUp setLogged={setIsLogged} />} />
 
@@ -93,7 +92,6 @@ export default function App() {
           }
         />
       </Routes>
-      
     </div>
   );
 }
