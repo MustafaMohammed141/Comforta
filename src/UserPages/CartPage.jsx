@@ -8,7 +8,6 @@ const CartPage = () => {
   const [error, setError] = useState(null);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  // Fetch cart data
   useEffect(() => {
     const fetchCart = async () => {
       try {
