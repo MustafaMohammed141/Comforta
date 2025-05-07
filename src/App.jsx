@@ -9,12 +9,12 @@ import SignUp from "./UserPages/SignUp";
 import Contact from "./UserPages/Contact";
 import About from "./UserPages/About";
 import axios from "axios";
-import Loading from "./UserPages/components/Loading";
 export default function App() {
-  const [isLogged, setIsLogged] = useState(false);
-  
   const [users, setUsers] = useState([]);
+  const [admin, setAdmin] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLogged, setIsLogged] = useState(true);
+  const [products, setProducts] = useState([]);
 
   const getUsers = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
@@ -31,12 +31,42 @@ export default function App() {
       console.log(e);
     }
   };
+  const getAdmin = async () => {
+    const VITE_DB = import.meta.env.VITE_DB;
+    try {
+      const req = await axios({
+        url: `${VITE_DB}/Admins`,
+        method: "get",
+      });
+      setAdmin(req.data);
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getProds = async () => {
+    const VITE_DB = import.meta.env.VITE_DB;
+
+    try {
+      const req = await axios({
+        url: `${VITE_DB}/products`,
+        method: "get",
+      });
+      setProducts(req.data);
+
+      setIsLoading(false);
+    } catch (e) {
+      console.log(e);
+    }
+  };
   useEffect(() => {
     getUsers();
+    getProds();
+    getAdmin();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
+    <div className="min-h-screen bg-gray-50 text-gray-800 over">
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/shopping" element={<Products />} />
@@ -51,9 +81,13 @@ export default function App() {
           path="/admindb/*"
           element={
             <Dashboard
+              products={products}
+              setProducts={setProducts}
               users={users}
+              admin={admin}
               isLoading={isLoading}
               refreshUsers={getUsers}
+              refreshAdmin={getAdmin}
             />
           }
         />
