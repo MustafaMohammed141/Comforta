@@ -94,23 +94,25 @@ const AdminsTable = ({ admin, isLoading, refreshAdmin }) => {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Button
-                      variant="gradient"
-                      onClick={() => handleOpenDelete("xs")}
-                      color="red">
-                      Delete
-                    </Button>
-                    <AdminDeleteConfirm
-                      size={sizeDel}
-                      id={id}
-                      refreshAdmin={refreshAdmin}
-                      handleOpenDelete={handleOpenDelete}
-                    />
-                    <Link to={`../ManageAdmins/${id}`}>
-                      <Button variant="gradient" color="green">
-                        Manage user
+                    <div className="flex gap-1">
+                      <Button
+                        variant="gradient"
+                        onClick={() => handleOpenDelete("xs")}
+                        color="red">
+                        Delete
                       </Button>
-                    </Link>
+                      <AdminDeleteConfirm
+                        size={sizeDel}
+                        id={id}
+                        refreshAdmin={refreshAdmin}
+                        handleOpenDelete={handleOpenDelete}
+                      />
+                      <Link to={`../ManageAdmins/${id}`}>
+                        <Button variant="gradient" color="green">
+                          Manage user
+                        </Button>
+                      </Link>
+                    </div>
                   </td>
                 </tr>
               );
