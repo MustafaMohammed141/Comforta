@@ -16,7 +16,7 @@ const patterns = {
 };
 
 const ManageUsers = ({ refreshUsers }) => {
-  const { id } = useParams();
+  const { _id } = useParams();
   const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [update, setUpdate] = useState({});
@@ -31,7 +31,7 @@ const ManageUsers = ({ refreshUsers }) => {
 
     try {
       const req = await axios({
-        url: `${VITE_DB}/users/${id}`,
+        url: `${VITE_DB}/users/${_id}`,
         method: "get",
       });
       setUser(req.data);
@@ -60,13 +60,12 @@ const ManageUsers = ({ refreshUsers }) => {
     validateField(name, value);
   };
 
-
   const updateUser = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
     try {
       await axios({
-        url: `${VITE_DB}/users/${id}`,
+        url: `${VITE_DB}/users/${_id}`,
         method: "put",
         data: update,
       });
@@ -82,7 +81,7 @@ const ManageUsers = ({ refreshUsers }) => {
 
     try {
       await axios({
-        url: `${VITE_DB}/users/${id}`,
+        url: `${VITE_DB}/users/${_id}`,
         method: "delete",
       });
       refreshUsers();
@@ -92,7 +91,6 @@ const ManageUsers = ({ refreshUsers }) => {
   };
 
   useEffect(() => {
-
     getUser();
   }, []);
 
@@ -215,7 +213,6 @@ const ManageUsers = ({ refreshUsers }) => {
           </Link>
         </div>
       </div>
-
     </div>
   );
 };
