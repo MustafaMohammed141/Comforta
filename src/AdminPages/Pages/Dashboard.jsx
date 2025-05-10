@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../../UserPages/components/Header";
 import Dashboard_body from "./Dashboard_body";
 import { Routes, Route } from "react-router-dom";
@@ -8,7 +7,15 @@ import ManageUsers from "./ManageUsers";
 import ManageProducts from "./ManageProducts";
 import ManageAdmins from "./ManageAdmins";
 
-const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, products, setProducts }) => {
+const Dashboard = ({
+  users,
+  isLoading,
+  refreshUsers,
+  admin,
+  refreshAdmin,
+  products,
+  setProducts,
+}) => {
   return (
     <div>
       <Header />
@@ -17,7 +24,10 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, produc
           index
           element={<Dashboard_body admin={admin} isLoading={isLoading} />}
         />
-        <Route path="/Products" element={<ProductsDB products = {products} setProducts={setProducts}/>} />
+        <Route
+          path="/Products"
+          element={<ProductsDB products={products} setProducts={setProducts} />}
+        />
         <Route
           path="/List/*"
           element={
@@ -30,7 +40,7 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, produc
           }
         />
         <Route
-          path="/ManageUsers/:id"
+          path="/ManageUsers/:_id"
           element={
             <ManageUsers
               admin={admin}
@@ -40,25 +50,14 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin, produc
           }
         />
         <Route
-          path="/ManageProducts/:id"
-          element={
-            <ManageProducts
-              products={products}
-              setProducts={setProducts}
-              isLoading={isLoading}
-              />
-          }
-          />
-                
-          <Route
-          path="/ManageAdmins/:id"
+          path="/ManageAdmins/:_id"
           element={
             <ManageAdmins
               users={users}
               admin={admin}
               isLoading={isLoading}
               refreshAdmin={refreshAdmin}
-                    />
+            />
           }
         />
       </Routes>

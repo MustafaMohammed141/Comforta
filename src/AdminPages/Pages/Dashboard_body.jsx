@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import Loading from "../../UserPages/components/Loading";
 
 const Dashboard_body = ({ admin }) => {
-  const adminId = localStorage.getItem("id");
-  const found = admin.find((a) => a.id === Number(adminId));
+  const adminId = localStorage.getItem("_id");
+  const found = admin.find((a) => a._id === Number(adminId));
   if (!found) return <Loading />;
   return (
     <div>
