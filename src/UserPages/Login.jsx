@@ -11,7 +11,7 @@ const Login = ({ setLogged }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-     
+
     try {
       const adminRes = await axios.get(`${URL}/admins`);
       const adminMatch = adminRes.data.find(
@@ -20,12 +20,12 @@ const Login = ({ setLogged }) => {
 
       if (adminMatch) {
         localStorage.setItem("id", adminMatch.id);
-        localStorage.setItem("role", "h@m@y@a@m");//we signed the role to be something hard to figure to make hard acess dash board 
+        localStorage.setItem("role", "h@m@y@a@m"); //we signed the role to be something hard to figure to make hard acess dash board
         setLogged(true);
         navigate("/admindb");
         return;
       }
-      
+
       const userRes = await axios.get(`${URL}/users`);
       const userMatch = userRes.data.find(
         (u) => u.email === user.email && u.password === user.password
@@ -47,15 +47,14 @@ const Login = ({ setLogged }) => {
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (role ) {
-      navigate("/");     } 
-    }, []);
-   
-  
+    if (role) {
+      navigate("/");
+    }
+  }, []);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-teal-200 to-purple-200">
       <div className="bg-white flex rounded-3xl shadow-lg max-w-4xl p-5">
-        
         <div className="w-1/2 px-8 py-6">
           <h2 className="text-pink-600 text-xl font-semibold">Logo Here</h2>
           <p className="text-sm mt-2">Welcome back !!!</p>
@@ -78,9 +77,7 @@ const Login = ({ setLogged }) => {
                 type="password"
                 placeholder="Password"
                 value={user.password}
-                onChange={(e) =>
-                  setUser({ ...user, password: e.target.value })
-                }
+                onChange={(e) => setUser({ ...user, password: e.target.value })}
                 required
               />
               <span className="absolute right-3 top-3 text-sm text-gray-500 cursor-pointer">
@@ -97,9 +94,6 @@ const Login = ({ setLogged }) => {
             <span className="mx-2 text-gray-400 text-sm">or continue with</span>
             <hr className="flex-grow border-gray-300" />
           </div>
-
-         
-            
 
           <p className="text-sm mt-4 text-center">
             Don’t have an account yet?{" "}

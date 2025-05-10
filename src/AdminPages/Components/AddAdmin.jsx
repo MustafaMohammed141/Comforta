@@ -23,7 +23,7 @@ const AddAdmin = ({ open, handleOpen, refreshAdmin }) => {
         url: `${VITE_DB}/Admins`,
         method: "post",
         data: {
-          id: "",
+          _id: "",
           name: user.name,
           email: user.email,
           password: user.password,

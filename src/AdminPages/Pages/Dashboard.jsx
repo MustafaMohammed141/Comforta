@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "../../UserPages/components/Header";
 import Dashboard_body from "./Dashboard_body";
 import { Routes, Route } from "react-router-dom";
@@ -29,7 +28,7 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin }) => {
           }
         />
         <Route
-          path="/ManageUsers/:id"
+          path="/ManageUsers/:_id"
           element={
             <ManageUsers
               users={users}
@@ -40,7 +39,7 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin }) => {
           }
         />
         <Route
-          path="/ManageAdmins/:id"
+          path="/ManageAdmins/:_id"
           element={
             <ManageAdmins
               users={users}

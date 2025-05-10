@@ -24,7 +24,7 @@ export default function App() {
         url: `${VITE_DB}/users`,
         method: "get",
       });
-      setUsers(req.data);
+      setUsers(req.data.data.data);
 
       setIsLoading(false);
     } catch (e) {
@@ -38,7 +38,7 @@ export default function App() {
         url: `${VITE_DB}/Admins`,
         method: "get",
       });
-      setAdmin(req.data);
+      setAdmin(req.data.data.data);
       setIsLoading(false);
     } catch (e) {
       console.log(e);
@@ -52,7 +52,7 @@ export default function App() {
         url: `${VITE_DB}/products`,
         method: "get",
       });
-      setProducts(req.data);
+      setProducts(req.data.data.data);
 
       setIsLoading(false);
     } catch (e) {

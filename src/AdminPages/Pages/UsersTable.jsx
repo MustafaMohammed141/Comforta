@@ -3,7 +3,7 @@ import { Card, Typography, Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import Loading from "../../UserPages/components/Loading";
 const UsersTable = ({ users, isLoading }) => {
-  const TABLE_HEAD = ["ID", "Name", "Email", "Phone", ""];
+  const TABLE_HEAD = ["id", "Name", "Email", "Phone", ""];
   if (isLoading) {
     return <Loading />;
   }
@@ -31,20 +31,20 @@ const UsersTable = ({ users, isLoading }) => {
             </tr>
           </thead>
           <tbody>
-            {users.map(({ id, name, email, phone }, index) => {
+            {users.map(({ _id, name, email, phone }, index) => {
               const isLast = index === users.length - 1;
               const classes = isLast
                 ? "p-4"
                 : "p-4 border-b border-blue-gray-50";
 
               return (
-                <tr key={id}>
+                <tr key={_id}>
                   <td className={classes}>
                     <Typography
                       variant="small"
                       color="blue-gray"
                       className="font-normal">
-                      {id}
+                      {_id}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -72,7 +72,7 @@ const UsersTable = ({ users, isLoading }) => {
                     </Typography>
                   </td>
                   <td className={classes}>
-                    <Link to={`../ManageUsers/${id}`}>
+                    <Link to={`../ManageUsers/${_id}`}>
                       <Button variant="gradient" color="green">
                         Manage user
                       </Button>
