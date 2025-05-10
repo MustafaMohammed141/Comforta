@@ -4,18 +4,30 @@ import { Routes, Route } from "react-router-dom";
 import ProductsDB from "./ProductsDB";
 import UsersDB from "./UsersDB";
 import ManageUsers from "./ManageUsers";
+import ManageProducts from "./ManageProducts";
 import ManageAdmins from "./ManageAdmins";
 
-const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin }) => {
+const Dashboard = ({
+  users,
+  isLoading,
+  refreshUsers,
+  admin,
+  refreshAdmin,
+  products,
+  setProducts,
+}) => {
   return (
-    <div className="overflow-hidden">
+    <div>
       <Header />
       <Routes>
         <Route
           index
           element={<Dashboard_body admin={admin} isLoading={isLoading} />}
         />
-        <Route path="/Products" element={<ProductsDB />} />
+        <Route
+          path="/Products"
+          element={<ProductsDB products={products} setProducts={setProducts} />}
+        />
         <Route
           path="/List/*"
           element={
@@ -31,7 +43,6 @@ const Dashboard = ({ users, isLoading, refreshUsers, admin, refreshAdmin }) => {
           path="/ManageUsers/:_id"
           element={
             <ManageUsers
-              users={users}
               admin={admin}
               isLoading={isLoading}
               refreshUsers={refreshUsers}
