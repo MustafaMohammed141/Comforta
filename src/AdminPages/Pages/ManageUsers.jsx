@@ -60,6 +60,7 @@ const ManageUsers = ({ refreshUsers }) => {
     validateField(name, value);
   };
 
+
   const updateUser = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
@@ -69,6 +70,7 @@ const ManageUsers = ({ refreshUsers }) => {
         method: "put",
         data: update,
       });
+
       handleOpenEdit("xs");
       refreshUsers();
     } catch (e) {
@@ -90,6 +92,7 @@ const ManageUsers = ({ refreshUsers }) => {
   };
 
   useEffect(() => {
+
     getUser();
   }, []);
 
@@ -136,7 +139,6 @@ const ManageUsers = ({ refreshUsers }) => {
               type="text"
               color="black"
               label="Password"
-              defaultValue={user.password}
             />
             {errors.password && (
               <p className="text-red-500">{errors.password}</p>
@@ -189,7 +191,6 @@ const ManageUsers = ({ refreshUsers }) => {
             {errors.age && <p className="text-red-500">{errors.age}</p>}
           </div>
         </div>
-
         <div className="flex gap-4">
           <Button
             onClick={updateUser}
@@ -214,6 +215,7 @@ const ManageUsers = ({ refreshUsers }) => {
           </Link>
         </div>
       </div>
+
     </div>
   );
 };

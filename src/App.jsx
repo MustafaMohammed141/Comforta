@@ -9,13 +9,13 @@ import SignUp from "./UserPages/SignUp";
 import Contact from "./UserPages/Contact";
 import About from "./UserPages/About";
 import axios from "axios";
+
 export default function App() {
   const [users, setUsers] = useState([]);
   const [admin, setAdmin] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLogged, setIsLogged] = useState(true);
   const [products, setProducts] = useState([]);
-
   const getUsers = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
@@ -31,6 +31,7 @@ export default function App() {
       console.log(e);
     }
   };
+
   const getAdmin = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
     try {
@@ -44,7 +45,7 @@ export default function App() {
       console.log(e);
     }
   };
-  const getProds = async () => {
+  const getProducts = async () => {
     const VITE_DB = import.meta.env.VITE_DB;
 
     try {
@@ -61,7 +62,7 @@ export default function App() {
   };
   useEffect(() => {
     getUsers();
-    getProds();
+    getProducts();
     getAdmin();
   }, []);
 
@@ -81,6 +82,7 @@ export default function App() {
           path="/admindb/*"
           element={
             <Dashboard
+
               products={products}
               setProducts={setProducts}
               users={users}

@@ -52,6 +52,7 @@ export default function SignUp({ setLogged }) {
   };
 
   return (
+
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-purple-200 to-teal-200">
       <div className="bg-white flex rounded-3xl shadow-lg max-w-5xl w-full p-5">
         {/* Left Side - Form */}
