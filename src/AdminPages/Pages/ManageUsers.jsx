@@ -16,7 +16,7 @@ const patterns = {
 };
 
 const ManageUsers = ({ refreshUsers }) => {
-  const { _id } = useParams();
+  const { id } = useParams();
   const [user, setUser] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [update, setUpdate] = useState({});
@@ -31,7 +31,7 @@ const ManageUsers = ({ refreshUsers }) => {
 
     try {
       const req = await axios({
-        url: `${VITE_DB}/users/${_id}`,
+        url: `${VITE_DB}/users/${id}`,
         method: "get",
       });
       setUser(req.data);
@@ -65,7 +65,7 @@ const ManageUsers = ({ refreshUsers }) => {
 
     try {
       await axios({
-        url: `${VITE_DB}/users/${_id}`,
+        url: `${VITE_DB}/users/${id}`,
         method: "put",
         data: update,
       });
@@ -81,7 +81,7 @@ const ManageUsers = ({ refreshUsers }) => {
 
     try {
       await axios({
-        url: `${VITE_DB}/users/${_id}`,
+        url: `${VITE_DB}/users/${id}`,
         method: "delete",
       });
       refreshUsers();
